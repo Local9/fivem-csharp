@@ -40,4 +40,9 @@
 
   <Import Project="..\ProjectName.Shared\ProjectName.Shared.projitems" Label="Shared" />
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /f /r /y /i bin\Debug ..\build\server&#xD;&#xA;xcopy /f /r /y /i /s ..\resource_files\ ..\build" Condition="'$(Configuration)' == 'Debug'" />
+    <Exec Command="xcopy /f /r /y /i bin\Release ..\build\server&#xD;&#xA;xcopy /f /r /y /i /s ..\resource_files\ ..\build" Condition="'$(Configuration)' == 'Release'" />
+  </Target>
+
 </Project>

@@ -1,0 +1,9 @@
+{
+  "database": {
+    "server": "localhost",
+    "databaseName": "fivemdb",
+    "username": "username",
+    "password": "password",
+    "port": 3306
+  }
+}

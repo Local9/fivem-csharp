@@ -5,7 +5,7 @@ namespace ProjectName.Server
 {
     internal sealed class ServerConfiguration
     {
-        private const string SERVER_CONFIG_LOCATION = $"/data/server-config.json";
+        private const string SERVER_CONFIG_LOCATION = $"/server/server-config.json";
         private static ServerConfig _serverConfig = null;
 
         private ServerConfiguration()
