@@ -12,6 +12,7 @@ namespace ProjectName.Client
         public Main()
         {
             PlayerList = Players;
+            Logger = new();
 
             Instance = this;
 
