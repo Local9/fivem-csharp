@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectName.Client", "ProjectName.Client\ProjectName.Client.csproj", "{9511442F-B796-4605-9631-C0D357D421F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectName.Server", "ProjectName.Server\ProjectName.Server.csproj", "{C91A133F-7240-43D4-8215-27434CF96C1F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ProjectName.Shared", "ProjectName.Shared\ProjectName.Shared.shproj", "{82DF2F41-6CCF-40B5-A3A2-15E68B0C1832}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E739C2A4-BF71-477E-934C-81C9E82167FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9511442F-B796-4605-9631-C0D357D421F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9511442F-B796-4605-9631-C0D357D421F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9511442F-B796-4605-9631-C0D357D421F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9511442F-B796-4605-9631-C0D357D421F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91A133F-7240-43D4-8215-27434CF96C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91A133F-7240-43D4-8215-27434CF96C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91A133F-7240-43D4-8215-27434CF96C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91A133F-7240-43D4-8215-27434CF96C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3962D23B-0087-435B-8898-AB433F54D131}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ProjectName.Shared\ProjectName.Shared.projitems*{82df2f41-6ccf-40b5-a3a2-15e68b0c1832}*SharedItemsImports = 13
+		ProjectName.Shared\ProjectName.Shared.projitems*{9511442f-b796-4605-9631-c0d357d421f8}*SharedItemsImports = 5
+		ProjectName.Shared\ProjectName.Shared.projitems*{c91a133f-7240-43d4-8215-27434cf96c1f}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal
