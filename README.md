@@ -14,4 +14,4 @@ Building the projects will output into a build folder in the root directory, ins
 
 ## Limitations
 
-Currently FxEvents only allows a single resource to be using it, so it is best to build this with this in mind, it was originally developed for C# Frameworks that run in a single resource.
+Currently FxEvents only allows a single resource to be using it, so it is best to develop with this in mind, it was originally developed for C# Frameworks that run in a single resource.
