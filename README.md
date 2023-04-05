@@ -1,6 +1,6 @@
 # FiveM C# Project Example
 
-This is an example C# Project using Dapper and FxEvents
+This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper) and [FxEvents](https://github.com/manups4e/FxEvents)
 
 ## Project requirements
 
@@ -14,4 +14,4 @@ Building the projects will output into a build folder in the root directory, ins
 
 ## Limitations
 
-Currently FxEvents only allows a single resource to be using it, so it is best to develop with this in mind, it was originally developed for C# Frameworks that run in a single resource.
+Currently [FxEvents](https://github.com/manups4e/FxEvents) only allows a single resource to be using it, so it is best to develop with this in mind, it was originally developed for C# Frameworks that run in a single resource.
