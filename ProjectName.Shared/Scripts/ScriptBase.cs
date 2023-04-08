@@ -1,6 +1,11 @@
 ﻿using Logger;
+#if Server
+using ProjectName.Server;
+#elif Client
+using ProjectName.Client;
+#endif
 
-namespace ProjectName.Server.Scripts
+namespace ProjectName.Shared
 {
     internal class ScriptBase
     {

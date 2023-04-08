@@ -1,4 +1,5 @@
 ﻿using FxEvents;
+using ProjectName.Shared;
 
 namespace ProjectName.Client.Scripts
 {
