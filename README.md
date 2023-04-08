@@ -8,6 +8,16 @@ This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper
 - .NET Framework 4.7.2
 - Basic understanding of C#
 
+## Database
+
+This was developed with MariaDB or MySQL in mind, you can change this to Postgres or any other database you prefer. When creating the database you can use the name given in this project which is `fivemdb` or your own, just make sure to update the `server-config.json`. The database must use the `utf8mb4_unicode_520_ci` coallation.
+
+MariaDB Create;
+
+```sql
+CREATE DATABASE `fivemdb` /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
+```
+
 ## Building
 
 Building the projects will output into a build folder in the root directory, inside the server folder you'll find a `server-config.json-example` rename this file to `server-config.json` and update the contents to connect to your chosen database (MySQL, MariaDB, or any that [Dapper](https://github.com/DapperLib/Dapper) supports). The contents of the build folder can be copied to your FiveM server to be ran.
