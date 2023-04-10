@@ -5,14 +5,17 @@ namespace ProjectName.Server.Database.Domain
 {
     public class User
     {
-        [Description("UserId")]
-        public int UserId { get; private set; }
+        [Description("id")]
+        public int Id { get; private set; }
 
-        [Description("LastName")]
+        [Description("last_name")]
         public string LastName { get; private set; }
 
-        [Description("Created")]
+        [Description("created")]
         public DateTime Created { get; private set; }
+
+        [Description("last_seen")]
+        public DateTime LastSeen { get; private set; }
 
         public static async Task<User> GetUser(Player player)
         {
@@ -41,26 +44,54 @@ namespace ProjectName.Server.Database.Domain
 
             // find user using fivem identifier
             User user = await OnGetUserByIdentityAsync(fivem);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by fivem identifier.");
+                return user;
+            }
             // find user using license identifier
             user = await OnGetUserByIdentityAsync(license);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by license identifier.");
+                return user;
+            }
             // find user using xbl identifier
             user = await OnGetUserByIdentityAsync(xbl);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by xbl identifier.");
+                return user;
+            }
             // find user using live identifier
             user = await OnGetUserByIdentityAsync(live);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by live identifier.");
+                return user;
+            }
             // find user using discord identifier
             user = await OnGetUserByIdentityAsync(discord);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by discord identifier.");
+                return user;
+            }
             // find user using steam identifier
             user = await OnGetUserByIdentityAsync(steam);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by steam identifier.");
+                return user;
+            }
 
             // find user using tokens
             user = await OnGetUserByTokensAsync(tokens);
-            if (user is not null) return user;
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by token.");
+                return user;
+            }
 
             // if no user is returned, then create one.
             if (user is null)
@@ -87,26 +118,26 @@ namespace ProjectName.Server.Database.Domain
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pLastName", lastName);
 
-            return await Dapper<User>.GetSingleAsync("insUser", dynamicParameters);
+            return await Dapper<User>.GetSingleAsync("call insUser(@pLastName);", dynamicParameters);
         }
 
         private async Task OnInsertTokenAsync(string token)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("pUserId", UserId);
+            dynamicParameters.Add("pUserId", Id);
             dynamicParameters.Add("pToken", token);
 
-            await Dapper<User>.ExecuteAsync("insUserToken", dynamicParameters);
+            await Dapper<User>.ExecuteAsync("call insUserToken(@pUserId, @pToken);", dynamicParameters);
         }
 
         private async Task OnInsertIdentityAsync(string type, string value)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("pUserId", UserId);
+            dynamicParameters.Add("pUserId", Id);
             dynamicParameters.Add("pType", type);
             dynamicParameters.Add("pValue", value);
 
-            await Dapper<User>.ExecuteAsync("insUserIdentity", dynamicParameters);
+            await Dapper<User>.ExecuteAsync("call insUserIdentity(@pUserId, @pType, @pValue);", dynamicParameters);
         }
 
         private static async Task<User> OnGetUserByIdentityAsync(string identity)
@@ -121,7 +152,7 @@ namespace ProjectName.Server.Database.Domain
             dynamicParameters.Add("pType", type);
             dynamicParameters.Add("pValue", value);
 
-            return await Dapper<User>.GetSingleAsync("selUserByIdentity", dynamicParameters);
+            return await Dapper<User>.GetSingleAsync("call selUserByIdentity(@pType, @pValue);", dynamicParameters);
         }
 
         private static async Task<User> OnGetUserByTokensAsync(List<string> tokens)
@@ -129,7 +160,7 @@ namespace ProjectName.Server.Database.Domain
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pTokens", string.Join(",", tokens));
 
-            return await Dapper<User>.GetSingleAsync("selUserByToken", dynamicParameters);
+            return await Dapper<User>.GetSingleAsync("call selUserByToken(@pTokens);", dynamicParameters);
         }
 
         public override string ToString()

@@ -27,3 +27,9 @@ Building the projects will output into a build folder in the root directory, ins
 ## Limitations
 
 Currently [FxEvents](https://github.com/manups4e/FxEvents) only allows a single resource to be using it, so it is best to develop with this in mind, it was originally developed for C# Frameworks that run in a single resource.
+
+## Known Issues
+
+- Console Error: `Could not load assembly MySql.Data - loading exceptions: Exception loading assembly MySql.Data: System.IO.FileNotFoundException: Unable to find the specified file.`
+
+  This is a false positive error, migrations still run and MySql.Data has currently not shown to be required during migrations. This can be ignored, fluentmigrator has had conversations around an [issue](https://github.com/fluentmigrator/fluentmigrator/pull/1600) thats likely related to it but have yet to release a new version with the changes.

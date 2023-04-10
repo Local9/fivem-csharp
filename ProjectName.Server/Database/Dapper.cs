@@ -6,37 +6,12 @@ namespace ProjectName.Server.Database
 {
     internal class Dapper<T>
     {
-        private static string _connectionString;
-
-        private static string ConnectionString()
-        {
-            if (!string.IsNullOrEmpty(_connectionString))
-                return _connectionString;
-
-            DatabaseConfig databaseConfig = ServerConfiguration.GetDatabaseConfig;
-
-            MySqlConnectionStringBuilder mySqlConnectionStringBuilder = new MySqlConnectionStringBuilder();
-            mySqlConnectionStringBuilder.ApplicationName = databaseConfig.ApplicationName;
-
-            mySqlConnectionStringBuilder.Database = databaseConfig.Database;
-            mySqlConnectionStringBuilder.Server = databaseConfig.Server;
-            mySqlConnectionStringBuilder.Port = databaseConfig.Port;
-            mySqlConnectionStringBuilder.UserID = databaseConfig.Username;
-            mySqlConnectionStringBuilder.Password = databaseConfig.Password;
-
-            mySqlConnectionStringBuilder.MaximumPoolSize = databaseConfig.MaximumPoolSize;
-            mySqlConnectionStringBuilder.MinimumPoolSize = databaseConfig.MinimumPoolSize;
-            mySqlConnectionStringBuilder.ConnectionTimeout = databaseConfig.ConnectionTimeout;
-
-            return _connectionString = mySqlConnectionStringBuilder.ToString();
-        }
-
         public static async Task<List<T>> GetListAsync(string query, DynamicParameters args = null)
         {
             var watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(ConnectionString()))
+                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     SetupTypeMap();
 
@@ -45,7 +20,7 @@ namespace ProjectName.Server.Database
             }
             catch (Exception ex)
             {
-                SqlExceptionHandler(query, ex.Message, watch.ElapsedMilliseconds);
+                SqlExceptionHandler(query, args, ex.Message, watch.ElapsedMilliseconds);
             }
             finally
             {
@@ -59,7 +34,7 @@ namespace ProjectName.Server.Database
             var watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(ConnectionString()))
+                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     SetupTypeMap();
                     return (await conn.QueryAsync<T>(query, args)).FirstOrDefault();
@@ -67,7 +42,7 @@ namespace ProjectName.Server.Database
             }
             catch (Exception ex)
             {
-                SqlExceptionHandler(query, ex.Message, watch.ElapsedMilliseconds);
+                SqlExceptionHandler(query, args, ex.Message, watch.ElapsedMilliseconds);
             }
             finally
             {
@@ -81,14 +56,14 @@ namespace ProjectName.Server.Database
             var watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(ConnectionString()))
+                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     return (await conn.ExecuteAsync(query, args)) > 0;
                 }
             }
             catch (Exception ex)
             {
-                SqlExceptionHandler(query, ex.Message, watch.ElapsedMilliseconds);
+                SqlExceptionHandler(query, args, ex.Message, watch.ElapsedMilliseconds);
             }
             finally
             {
@@ -97,11 +72,15 @@ namespace ProjectName.Server.Database
             return false;
         }
 
-        private static void SqlExceptionHandler(string query, string exceptionMessage, long elapsedMilliseconds)
+        private static void SqlExceptionHandler(string query, DynamicParameters args, string exceptionMessage, long elapsedMilliseconds)
         {
             StringBuilder sb = new();
             sb.Append("** SQL Exception **\n");
             sb.Append($"Query: {query}\n");
+            foreach (var arg in args.ParameterNames)
+            {
+                sb.Append($"Parameter: {arg} Value: {args.Get<object>(arg)}\n");
+            }
             sb.Append($"Exception Message: {exceptionMessage}\n");
             sb.Append($"Time Elapsed: {elapsedMilliseconds}ms");
             Main.Logger.Error($"{Log.DARK_RED}{sb}");

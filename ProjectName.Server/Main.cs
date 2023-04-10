@@ -29,6 +29,7 @@ namespace ProjectName.Server
         {
             try
             {
+                await DatabaseMigration.RunMigrations();
                 await OnDatabaseTestAsync();
 
                 _ = Scripts.ClientConnection.Instance;
@@ -38,7 +39,7 @@ namespace ProjectName.Server
             catch (Exception ex)
             {
                 Logger.Error($"---------------------------------------------.");
-                Logger.Error($"Server failed to load.");
+                Logger.Error($"Server failed to load, reverted migrations.");
                 Logger.Info($"{ex}");
                 Logger.Error($"---------------------------------------------.");
             }
