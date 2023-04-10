@@ -10,7 +10,7 @@ This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper
 
 ## Database
 
-This was developed with [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/) in mind, you can change this to Postgres or any other database you prefer. When creating the database you can use the name given in this project which is `fivemdb` or your own, just make sure to update the `server-config.json`. The database must use the `utf8mb4_unicode_520_ci` coallation.
+This was developed with [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/) in mind, you can change this to Postgres or any other database you prefer. When creating the database you can use the name given in this project which is `fivemdb` or your own, just make sure to update the `server-config.json`. The database is recommended to be created using the `utf8mb4_unicode_520_ci` coallation to support emojis.
 
 Database user must have all permissions except for `GRANT` as it will run migrations against the database to create tables, procedures, and various other requirements of the database.
 
@@ -33,3 +33,7 @@ Currently [FxEvents](https://github.com/manups4e/FxEvents) only allows a single 
 - Console Error: `Could not load assembly MySql.Data - loading exceptions: Exception loading assembly MySql.Data: System.IO.FileNotFoundException: Unable to find the specified file.`
 
   This is a false positive error, migrations still run and MySql.Data has currently not shown to be required during migrations. This can be ignored, fluentmigrator has had conversations around an [issue](https://github.com/fluentmigrator/fluentmigrator/pull/1600) thats likely related to it but have yet to release a new version with the changes.
+
+- 'DELIMITER' should not be used with MySqlConnector
+
+  Follow the [URL](https://fl.vu/mysql-delimiter), it explains it, just remove them.
