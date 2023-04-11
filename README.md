@@ -36,7 +36,7 @@ Currently [FxEvents](https://github.com/manups4e/FxEvents) only allows a single 
 
 - Console Error: `Could not load assembly MySql.Data - loading exceptions: Exception loading assembly MySql.Data: System.IO.FileNotFoundException: Unable to find the specified file.`
 
-  This is a false positive error, migrations still run and MySql.Data has currently not shown to be required during migrations. This can be ignored, fluentmigrator has had conversations around an [issue](https://github.com/fluentmigrator/fluentmigrator/pull/1600) thats likely related to it but have yet to release a new version with the changes.
+  This can be ignored, migrations still run and MySql.Data has currently not shown to be required. Fluent Migrator have had conversations around an [issue](https://github.com/fluentmigrator/fluentmigrator/pull/1600) that is likely related to it, but have yet to release a new version with the changes.
 
 - 'DELIMITER' should not be used with MySqlConnector
 
