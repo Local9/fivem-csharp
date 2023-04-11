@@ -22,7 +22,7 @@ CREATE DATABASE `fivemdb` /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 
 Migrations are made using [fluentmigrator](https://github.com/fluentmigrator/fluentmigrator), test all migrations and scripts on your own local development server long before pushing anything to production.
 
-Table migrations can be found in the server project `ProjectName.Server\Database\Migrations`, these are ran each time the resource is ran. In the `resource_files\server\migration_scripts` are the scripts for creating stored procedures or other SQL scripts that the migration cannot generate in code. Read the [fluentmigrator documents](https://fluentmigrator.github.io/) for more information.
+Table migrations can be found in the server project `ProjectName.Server\Database\Migrations`, these are checked to see if they are required to be ran each time the resource is started. In the `resource_files\server\migration_scripts` are the scripts for creating stored procedures or other SQL scripts that the migration cannot generate in code. Read the [fluentmigrator documents](https://fluentmigrator.github.io/) for more information.
 
 ## Building
 
