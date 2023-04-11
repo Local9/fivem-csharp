@@ -40,17 +40,39 @@ namespace ProjectName.Server.Database.Domain
             }
 
             string fivem = identifiers.FirstOrDefault(x => x.StartsWith("fivem:"));
-            string license = identifiers.FirstOrDefault(x => x.StartsWith("license:"));
-            string xbl = identifiers.FirstOrDefault(x => x.StartsWith("xbl:"));
-            string live = identifiers.FirstOrDefault(x => x.StartsWith("live:"));
-            string discord = identifiers.FirstOrDefault(x => x.StartsWith("discord:"));
             string steam = identifiers.FirstOrDefault(x => x.StartsWith("steam:"));
+            string discord = identifiers.FirstOrDefault(x => x.StartsWith("discord:"));
+            string license2 = identifiers.FirstOrDefault(x => x.StartsWith("license2:"));
+            string license = identifiers.FirstOrDefault(x => x.StartsWith("license:"));
+            string live = identifiers.FirstOrDefault(x => x.StartsWith("live:"));
+            string xbl = identifiers.FirstOrDefault(x => x.StartsWith("xbl:"));
 
             // find user using fivem identifier
             User user = await OnGetUserByIdentityAsync(fivem);
             if (user is not null)
             {
                 Main.Logger.Debug($"Found user {user.LastName} by fivem identifier.");
+                return user;
+            }
+            // find user using steam identifier
+            user = await OnGetUserByIdentityAsync(steam);
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by steam identifier.");
+                return user;
+            }
+            // find user using discord identifier
+            user = await OnGetUserByIdentityAsync(discord);
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by discord identifier.");
+                return user;
+            }
+            // find user using license2 identifier
+            user = await OnGetUserByIdentityAsync(license2);
+            if (user is not null)
+            {
+                Main.Logger.Debug($"Found user {user.LastName} by license2 identifier.");
                 return user;
             }
             // find user using license identifier
@@ -72,20 +94,6 @@ namespace ProjectName.Server.Database.Domain
             if (user is not null)
             {
                 Main.Logger.Debug($"Found user {user.LastName} by live identifier.");
-                return user;
-            }
-            // find user using discord identifier
-            user = await OnGetUserByIdentityAsync(discord);
-            if (user is not null)
-            {
-                Main.Logger.Debug($"Found user {user.LastName} by discord identifier.");
-                return user;
-            }
-            // find user using steam identifier
-            user = await OnGetUserByIdentityAsync(steam);
-            if (user is not null)
-            {
-                Main.Logger.Debug($"Found user {user.LastName} by steam identifier.");
                 return user;
             }
 
