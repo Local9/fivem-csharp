@@ -10,7 +10,7 @@ This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper
 
 ## Database
 
-This was developed with [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/) in mind, you can change this to Postgres or any other database you prefer. When creating the database you can use the name given in this project which is `fivemdb` or your own, just make sure to update the `server-config.json`. The database is recommended to be created using the `utf8mb4_unicode_520_ci` coallation to support emojis.
+This was developed with [MariaDB](https://mariadb.org/) or [MySQL](https://www.mysql.com/) in mind, you can change this to Postgres or any other database you prefer. When creating the database you can use the name given in this project which is `fivemdb` or your own, just make sure to update the `server-config.json`. Recommended that the database is created using the `utf8mb4_unicode_520_ci` coallation to support emojis.
 
 Database user must have all permissions except for `GRANT` as it will run migrations against the database to create tables, procedures, and various other requirements of the database.
 
