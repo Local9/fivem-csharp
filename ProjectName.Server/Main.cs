@@ -1,5 +1,7 @@
 ﻿using Logger;
 using ProjectName.Server.Database;
+using ProjectName.Server.Models;
+using System.Collections.Concurrent;
 
 namespace ProjectName.Server
 {
@@ -8,6 +10,7 @@ namespace ProjectName.Server
         internal static Main Instance { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
         internal static ExportDictionary ExportDictionary { get; private set; }
+        internal static ConcurrentDictionary<int, Session> ActiveSessions = new();
         internal static Log Logger { get; private set; }
         internal static bool IsReady { get; private set; }
 
@@ -102,6 +105,16 @@ namespace ProjectName.Server
         internal static async Task OnReturnToMainThreadAsync()
         {
             await Delay(0);
+        }
+
+        /// <summary>
+        /// Get the current session from the players server handle.
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns></returns>
+        public static Session ToSession(int handle)
+        {
+            return ActiveSessions.TryGetValue(handle, out Session user) ? user : null;
         }
     }
 }

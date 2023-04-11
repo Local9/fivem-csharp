@@ -21,6 +21,9 @@ namespace ProjectName.Client.Scripts
                     Logger.Info("Connection is active.");
                 else
                     Logger.Info("Connection is not active.");
+
+                string ping = await EventDispatcher.Get<string>("connection:ping");
+                Logger.Info($"Ping: {ping}");
             }
             catch (Exception ex)
             {

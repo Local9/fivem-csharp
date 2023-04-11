@@ -1,7 +1,8 @@
 ﻿using FxEvents;
+using FxEvents.Shared.TypeExtensions;
 using ProjectName.Server.Database.Domain;
+using ProjectName.Server.Models;
 using ProjectName.Shared;
-using System.Collections.Concurrent;
 
 namespace ProjectName.Server.Scripts
 {
@@ -9,13 +10,20 @@ namespace ProjectName.Server.Scripts
     {
         internal static ClientConnection Instance { get; private set; } = new ClientConnection();
 
-        internal ConcurrentDictionary<string, User> ActiveUsers = new();
-
         private ClientConnection()
         {
             AttachEvent("playerConnecting", new Action<Player, string, CallbackDelegate, dynamic>(OnPlayerConnectingAsync));
 
             EventDispatcher.Mount("connection:active", new Func<Player, Task<bool>>(OnConnectionActiveAsync));
+            EventDispatcher.Mount("connection:ping", new Func<EventSource, Task<string>>(OnConnectionPingAsync));
+        }
+
+        private async Task<string> OnConnectionPingAsync([FromSource] EventSource session)
+        {
+            // example of using the players information from the Active Session
+            Logger.Debug($"Player {session.Player.Name} pinged the server.");
+            Logger.Debug($"Players last name: {session.Session.User.LastName}.");
+            return "pong";
         }
 
         private async Task<bool> OnConnectionActiveAsync([FromSource] Player player)
@@ -28,7 +36,11 @@ namespace ProjectName.Server.Scripts
                 player.State.Set(StateBagKey.PlayerName, player.Name, true);
 
                 User user = await User.GetUser(player);
-                ActiveUsers.TryAdd(player.Handle, user);
+
+                Session session = new(player.Handle.ToInt());
+                session.SetUser(user);
+
+                Main.ActiveSessions.TryAdd(session.Handle, session);
 
                 return true;
             }
