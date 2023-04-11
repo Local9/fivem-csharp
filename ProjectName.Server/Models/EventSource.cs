@@ -2,6 +2,9 @@
 
 namespace ProjectName.Server.Models
 {
+    /// <summary>
+    /// EventSource is used by FxEvents to allow you to pull information needed for your events.
+    /// </summary>
     public partial class EventSource : ISource
     {
         public int Handle { get; set; }
