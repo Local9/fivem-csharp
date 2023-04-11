@@ -42,6 +42,7 @@ namespace ProjectName.Server.Database.Migrations
                 .ToTable("users").PrimaryColumn("id")
                 .OnDeleteOrUpdate(Rule.Cascade);
 
+            // TODO: Use Assembly.GetExecutingAssembly().Location to get the correct path
             Execute.Script($"resources/[project]/{GetCurrentResourceName()}/server/migration_scripts/0001_initial_migration.sql");
         }
 
