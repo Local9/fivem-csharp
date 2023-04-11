@@ -32,6 +32,10 @@ namespace ProjectName.Server.Database.Domain
             List<string> identifiers = new();
             for (int i = 0; i < numIdentifiers; i++)
             {
+                string identifier = GetPlayerIdentifier(player.Handle, i);
+
+                if (identifier.StartsWith("ip:")) continue;
+
                 identifiers.Add(GetPlayerIdentifier(player.Handle, i));
             }
 
