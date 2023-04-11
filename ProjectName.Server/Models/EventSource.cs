@@ -7,8 +7,19 @@ namespace ProjectName.Server.Models
     /// </summary>
     public partial class EventSource : ISource
     {
+        /// <summary>
+        /// CFX Server Handle
+        /// </summary>
         public int Handle { get; set; }
-        internal Player Player { get => Main.PlayerList[Handle]; }
+
+        /// <summary>
+        /// CFX Player Information (Name, Ping, etc.)
+        /// </summary>
+        internal Player Player => Main.PlayerList[Handle];
+
+        /// <summary>
+        /// Session Information (User, Character, etc.)
+        /// </summary>
         internal Session Session { get; private set; }
 
         public EventSource()

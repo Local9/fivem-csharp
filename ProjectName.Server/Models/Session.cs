@@ -8,7 +8,14 @@ namespace ProjectName.Server.Models
     /// </summary>
     public class Session
     {
+        /// <summary>
+        /// CFX Server Handle
+        /// </summary>
         public int Handle { get; set; }
+
+        /// <summary>
+        /// Project User Information
+        /// </summary>
         internal User User { get; private set; }
 
         public Session(int handle)
