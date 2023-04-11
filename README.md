@@ -20,6 +20,8 @@ MariaDB Create;
 CREATE DATABASE `fivemdb` /*!40100 COLLATE 'utf8mb4_unicode_520_ci' */
 ```
 
+Test all migrations and scripts on your own local development server long before pushing anything to production.
+
 ## Building
 
 Building the projects will output into a build folder in the root directory, inside the server folder you'll find a `server-config.json-example` rename this file to `server-config.json` and update the contents to connect to your chosen database (MySQL, MariaDB, or any that [Dapper](https://github.com/DapperLib/Dapper) supports). The contents of the build folder can be copied to your FiveM server to be ran.
