@@ -5,7 +5,8 @@ This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper
 ## Project requirements
 
 - Visual Studio 2022
-- .NET Framework 4.7.2
+- .NET Framework 4.7.2 (Client Project)
+- .NET Standard 2.0 (Server Project)
 - Basic understanding of C#
 
 ## Database
