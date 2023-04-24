@@ -83,7 +83,7 @@ namespace ProjectName.Server.Database
             }
             sb.Append($"Exception Message: {exceptionMessage}\n");
             sb.Append($"Time Elapsed: {elapsedMilliseconds}ms");
-            Main.Logger.Error($"{Log.DARK_RED}{sb}");
+            Main.Logger.Error($"{LoggerColors.DARK_RED}{sb}");
         }
 
         private static void SetupTypeMap()

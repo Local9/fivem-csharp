@@ -9,6 +9,7 @@
     <Import_RootNamespace>ProjectName.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FxEventKeys.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Scripts\ScriptBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateBagKey.cs" />
   </ItemGroup>

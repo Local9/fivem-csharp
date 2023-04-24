@@ -1,6 +1,8 @@
-﻿using Logger;
+﻿using FxEvents;
+using Logger;
 using ProjectName.Server.Database;
 using ProjectName.Server.Models;
+using ProjectName.Shared;
 using System.Collections.Concurrent;
 
 namespace ProjectName.Server
@@ -19,6 +21,7 @@ namespace ProjectName.Server
             PlayerList = Players;
             ExportDictionary = Exports;
             Logger = new();
+            EventDispatcher.Initalize($"{FxEventKeys.FX_KEY_INBOUND}_rpc_in", $"{FxEventKeys.FX_KEY_OUTBOUND}_rpc_out", $"{FxEventKeys.FX_KEY_SIGNATURE}_sig");
 
             Instance = this;
 
