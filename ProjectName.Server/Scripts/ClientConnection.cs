@@ -23,6 +23,8 @@ namespace ProjectName.Server.Scripts
             // example of using the players information from the Active Session
             Logger.Debug($"Player {session.Player.Name} pinged the server.");
             Logger.Debug($"Players last name: {session.Session.User.LastName}.");
+            string result = await EventDispatcher.Get<string>(session.Player, "client:ping");
+            Logger.Debug($"Server pinged player '{session.Player.Name}' got result '{result}'.");
             return "pong";
         }
 

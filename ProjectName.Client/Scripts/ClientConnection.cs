@@ -10,6 +10,12 @@ namespace ProjectName.Client.Scripts
         private ClientConnection()
         {
             OnStartupAsync();
+            EventDispatcher.Mount("client:ping", new Func<Task<string>>(OnClientPingAsync));
+        }
+
+        private async Task<string> OnClientPingAsync()
+        {
+            return "pong";
         }
 
         internal async void OnStartupAsync()
