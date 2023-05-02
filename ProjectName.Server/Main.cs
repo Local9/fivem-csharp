@@ -11,15 +11,15 @@ namespace ProjectName.Server
     {
         internal static Main Instance { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
-        internal static ExportDictionary ExportDictionary { get; private set; }
         internal static ConcurrentDictionary<int, Session> ActiveSessions = new();
         internal static Log Logger { get; private set; }
         internal static bool IsReady { get; private set; }
 
+        internal ExportDictionary ExportDictionary => Exports;
+
         public Main()
         {
             PlayerList = Players;
-            ExportDictionary = Exports;
             Logger = new();
             EventDispatcher.Initalize($"{FxEventKeys.FX_KEY_INBOUND}_rpc_in", $"{FxEventKeys.FX_KEY_OUTBOUND}_rpc_out", $"{FxEventKeys.FX_KEY_SIGNATURE}_sig");
 
