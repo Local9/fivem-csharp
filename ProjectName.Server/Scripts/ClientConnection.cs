@@ -8,7 +8,8 @@ namespace ProjectName.Server.Scripts
 {
     internal class ClientConnection : ScriptBase
     {
-        internal static ClientConnection Instance { get; private set; } = new ClientConnection();
+        private static readonly object Padlock = new();
+        private static ClientConnection _instance;
 
         private ClientConnection()
         {
@@ -16,6 +17,17 @@ namespace ProjectName.Server.Scripts
 
             EventDispatcher.Mount("connection:active", new Func<Player, Task<bool>>(OnConnectionActiveAsync));
             EventDispatcher.Mount("connection:ping", new Func<EventSource, Task<string>>(OnConnectionPingAsync));
+        }
+
+        internal static ClientConnection Instance
+        {
+            get
+            {
+                lock (Padlock)
+                {
+                    return _instance ??= new ClientConnection();
+                }
+            }
         }
 
         private async Task<string> OnConnectionPingAsync([FromSource] EventSource session)
