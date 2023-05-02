@@ -5,7 +5,7 @@ namespace ProjectName.Client.Scripts
 {
     internal sealed class ClientConnection : ScriptBase
     {
-        private static readonly object Padlock = new();
+        private static readonly object _padlock = new();
         private static ClientConnection _instance;
 
         private ClientConnection()
@@ -18,7 +18,7 @@ namespace ProjectName.Client.Scripts
         {
             get
             {
-                lock (Padlock)
+                lock (_padlock)
                 {
                     return _instance ??= new ClientConnection();
                 }
