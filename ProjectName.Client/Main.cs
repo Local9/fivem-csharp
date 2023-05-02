@@ -9,6 +9,8 @@ namespace ProjectName.Client
         internal static Main Instance { get; private set; }
         internal static Log Logger { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
+        internal ExportDictionary ExportDictionary => Exports;
+
         public static int GameTime { get; private set; }
 
         public Main()

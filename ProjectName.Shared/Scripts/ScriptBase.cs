@@ -15,6 +15,11 @@ namespace ProjectName.Shared
         internal static Log Logger => Main.Logger;
 
         /// <summary>
+        /// CFX Exports
+        /// </summary>
+        internal static ExportDictionary Exports => Main.Instance.ExportDictionary;
+
+        /// <summary>
         /// Adds an event handler to the event handlers dictionary.
         /// </summary>
         /// <remarks>This event will not go through FxEvents</remarks>
