@@ -79,7 +79,7 @@ namespace ProjectName.Server
         /// Attaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal void AttachTickHandler(Func<Task> task)
+        internal void AttachTick(Func<Task> task)
         {
             Tick += task;
         }
@@ -88,7 +88,7 @@ namespace ProjectName.Server
         /// Detaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal void DetachTickHandler(Func<Task> task)
+        internal void DetachTick(Func<Task> task)
         {
             Tick -= task;
         }
