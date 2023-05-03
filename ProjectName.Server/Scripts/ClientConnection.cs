@@ -38,7 +38,6 @@ namespace ProjectName.Server.Scripts
             // example of getting a ping response from the client
             string result = await EventDispatcher.Get<string>(session.Player, "client:ping");
             Logger.Debug($"Server pinged player '{session.Player.Name}' got result '{result}'.");
-
             return "pong";
         }
 
