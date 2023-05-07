@@ -9,6 +9,8 @@ namespace ProjectName.Client
         internal static Main Instance { get; private set; }
         internal static Log Logger { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
+        internal ExportDictionary ExportDictionary => Exports;
+
         public static int GameTime { get; private set; }
 
         public Main()
@@ -31,7 +33,7 @@ namespace ProjectName.Client
         /// Attaches a Tick
         /// </summary>
         /// <param name="task"></param>
-        internal void AttachTickHandler(Func<Task> task)
+        internal void AttachTick(Func<Task> task)
         {
             Tick += task;
         }
@@ -40,7 +42,7 @@ namespace ProjectName.Client
         /// Detaches a Tick
         /// </summary>
         /// <param name="task"></param>
-        internal void DetachTickHandler(Func<Task> task)
+        internal void DetachTick(Func<Task> task)
         {
             Tick -= task;
         }

@@ -5,12 +5,24 @@ namespace ProjectName.Client.Scripts
 {
     internal sealed class ClientConnection : ScriptBase
     {
-        internal static ClientConnection Instance { get; private set; } = new ClientConnection();
+        private static readonly object _padlock = new();
+        private static ClientConnection _instance;
 
         private ClientConnection()
         {
             OnStartupAsync();
             EventDispatcher.Mount("client:ping", new Func<Task<string>>(OnClientPingAsync));
+        }
+
+        internal static ClientConnection Instance
+        {
+            get
+            {
+                lock (_padlock)
+                {
+                    return _instance ??= new ClientConnection();
+                }
+            }
         }
 
         private async Task<string> OnClientPingAsync()
