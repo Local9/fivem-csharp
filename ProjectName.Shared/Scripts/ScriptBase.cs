@@ -7,6 +7,9 @@ using ProjectName.Client;
 
 namespace ProjectName.Shared
 {
+    /// <summary>
+    /// Base class for all scripts, contains common functionality which is shared on both the client and server.
+    /// </summary>
     internal class ScriptBase
     {
         /// <summary>
