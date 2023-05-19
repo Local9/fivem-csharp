@@ -17,26 +17,27 @@ namespace ProjectName.Server.Database.Domain
         [Description("last_seen")]
         public DateTime LastSeen { get; private set; }
 
-        public static async Task<User> GetUser(Player player)
+        public static async Coroutine<User> GetUser(CitizenFX.Core.Player player)
         {
             // Get player tokens
-            int numTokens = GetNumPlayerTokens(player.Handle);
+            CString handle = $"{player.Handle}";
+            int numTokens = Natives.GetNumPlayerTokens(handle);
             List<string> tokens = new();
             for (int i = 0; i < numTokens; i++)
             {
-                tokens.Add(GetPlayerToken(player.Handle, i));
+                tokens.Add(Natives.GetPlayerToken(handle, i));
             }
 
             // Get player identifiers
-            int numIdentifiers = GetNumPlayerIdentifiers(player.Handle);
+            int numIdentifiers = Natives.GetNumPlayerIdentifiers(handle);
             List<string> identifiers = new();
             for (int i = 0; i < numIdentifiers; i++)
             {
-                string identifier = GetPlayerIdentifier(player.Handle, i);
+                string identifier = Natives.GetPlayerIdentifier(handle, i);
 
                 if (identifier.StartsWith("ip:")) continue;
 
-                identifiers.Add(GetPlayerIdentifier(player.Handle, i));
+                identifiers.Add(Natives.GetPlayerIdentifier(handle, i));
             }
 
             string fivem = identifiers.FirstOrDefault(x => x.StartsWith("fivem:"));
@@ -125,7 +126,7 @@ namespace ProjectName.Server.Database.Domain
             return default;
         }
 
-        private static async Task<User> OnInsertUserAsync(string lastName)
+        private static async Coroutine<User> OnInsertUserAsync(string lastName)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pLastName", lastName);
@@ -133,7 +134,7 @@ namespace ProjectName.Server.Database.Domain
             return await Dapper<User>.GetSingleAsync("call insUser(@pLastName);", dynamicParameters);
         }
 
-        private async Task OnInsertTokenAsync(string token)
+        private async Coroutine OnInsertTokenAsync(string token)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pUserId", Id);
@@ -142,7 +143,7 @@ namespace ProjectName.Server.Database.Domain
             await Dapper<User>.ExecuteAsync("call insUserToken(@pUserId, @pToken);", dynamicParameters);
         }
 
-        private async Task OnInsertIdentityAsync(string type, string value)
+        private async Coroutine OnInsertIdentityAsync(string type, string value)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pUserId", Id);
@@ -152,7 +153,7 @@ namespace ProjectName.Server.Database.Domain
             await Dapper<User>.ExecuteAsync("call insUserIdentity(@pUserId, @pType, @pValue);", dynamicParameters);
         }
 
-        private static async Task<User> OnGetUserByIdentityAsync(string identity)
+        private static async Coroutine<User> OnGetUserByIdentityAsync(string identity)
         {
             if (string.IsNullOrEmpty(identity)) return null;
 
@@ -167,7 +168,7 @@ namespace ProjectName.Server.Database.Domain
             return await Dapper<User>.GetSingleAsync("call selUserByIdentity(@pType, @pValue);", dynamicParameters);
         }
 
-        private static async Task<User> OnGetUserByTokensAsync(List<string> tokens)
+        private static async Coroutine<User> OnGetUserByTokensAsync(List<string> tokens)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pTokens", string.Join(",", tokens));

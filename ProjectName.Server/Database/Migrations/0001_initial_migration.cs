@@ -43,7 +43,8 @@ namespace ProjectName.Server.Database.Migrations
                 .OnDeleteOrUpdate(Rule.Cascade);
 
             // TODO: Use Assembly.GetExecutingAssembly().Location to get the correct path
-            Execute.Script($"resources/[project]/{GetCurrentResourceName()}/server/migration_scripts/0001_initial_migration.sql");
+            string resourceName = Natives.GetCurrentResourceName();
+            Execute.Script($"resources/[project]/{resourceName}/server/migration_scripts/0001_initial_migration.sql");
         }
 
         public override void Down()

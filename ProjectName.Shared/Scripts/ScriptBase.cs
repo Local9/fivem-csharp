@@ -20,7 +20,7 @@ namespace ProjectName.Shared
         /// <summary>
         /// CFX Exports
         /// </summary>
-        internal static ExportDictionary Exports => Main.Instance.ExportDictionary;
+        internal static Exports ExportDictionary => Main.Instance.ExportDictionary;
 
         /// <summary>
         /// Adds an event handler to the event handlers dictionary.
@@ -28,18 +28,18 @@ namespace ProjectName.Shared
         /// <remarks>This event will not go through FxEvents</remarks>
         /// <param name="eventName"></param>
         /// <param name="delegate"></param>
-        internal static void AttachEvent(string eventName, Delegate action) => Main.Instance.AddEventHandler(eventName, action);
+        internal static void AttachEvent(string eventName, DynFunc action, Binding binding = Binding.Local) => Main.Instance.AddEventHandler(eventName, action, binding);
 
         /// <summary>
         /// Attaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal static void AttachTick(Func<Task> action) => Main.Instance.AttachTick(action);
+        internal static void AttachTick(Func<Coroutine> action) => Main.Instance.AttachTick(action);
 
         /// <summary>
         /// Detaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal static void DetachTick(Func<Task> action) => Main.Instance.DetachTick(action);
+        internal static void DetachTick(Func<Coroutine> action) => Main.Instance.DetachTick(action);
     }
 }

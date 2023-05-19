@@ -15,12 +15,12 @@ namespace ProjectName.Server
         internal static Log Logger { get; private set; }
         internal static bool IsReady { get; private set; }
 
-        internal ExportDictionary ExportDictionary => Exports;
+        internal Exports ExportDictionary => Exports;
 
         public Main()
         {
-            PlayerList = Players;
             Logger = new();
+            PlayerList = new PlayerList();
             EventDispatcher.Initalize($"{FxEventKeys.FX_KEY_INBOUND}_rpc_in", $"{FxEventKeys.FX_KEY_OUTBOUND}_rpc_out", $"{FxEventKeys.FX_KEY_SIGNATURE}_sig");
 
             Instance = this;
@@ -54,7 +54,7 @@ namespace ProjectName.Server
         /// <summary>
         /// Test the database connection.
         /// </summary>
-        private async Task OnDatabaseTestAsync()
+        private async Coroutine OnDatabaseTestAsync()
         {
             bool databaseTest = await Dapper<bool>.GetSingleAsync("select 1;");
             if (databaseTest)
@@ -67,11 +67,11 @@ namespace ProjectName.Server
         /// Awaitable tick handler for async methods to use to check if the server is ready.
         /// </summary>
         /// <returns></returns>
-        internal static async Task IsReadyAsync()
+        internal static async Coroutine IsReadyAsync()
         {
             while (!IsReady)
             {
-                await BaseScript.Delay(100);
+                await Wait(100);
             }
         }
 
@@ -79,7 +79,7 @@ namespace ProjectName.Server
         /// Attaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal void AttachTick(Func<Task> task)
+        internal void AttachTick(Func<Coroutine> task)
         {
             Tick += task;
         }
@@ -88,7 +88,7 @@ namespace ProjectName.Server
         /// Detaches a Tick.
         /// </summary>
         /// <param name="task"></param>
-        internal void DetachTick(Func<Task> task)
+        internal void DetachTick(Func<Coroutine> task)
         {
             Tick -= task;
         }
@@ -99,15 +99,15 @@ namespace ProjectName.Server
         /// <remarks>This event will not go through FxEvents</remarks>
         /// <param name="eventName"></param>
         /// <param name="delegate"></param>
-        internal void AddEventHandler(string eventName, Delegate @delegate)
+        internal void AddEventHandler(string eventName, DynFunc @delegate, Binding binding = Binding.Local)
         {
             Logger.Debug($"Registered Event Handler '{eventName}'");
-            EventHandlers[eventName] += @delegate;
+            EventHandlers[eventName].Add(@delegate, binding);
         }
 
-        internal static async Task OnReturnToMainThreadAsync()
+        internal static async Coroutine OnReturnToMainThreadAsync()
         {
-            await Delay(0);
+            await WaitUntilNextFrame();
         }
 
         /// <summary>

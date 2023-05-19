@@ -22,7 +22,7 @@ namespace ProjectName.Server
 
                 try
                 {
-                    string serverConfigFile = LoadResourceFile(GetCurrentResourceName(), SERVER_CONFIG_LOCATION);
+                    string serverConfigFile = Natives.LoadResourceFile(Natives.GetCurrentResourceName(), SERVER_CONFIG_LOCATION);
                     _serverConfig = JsonConvert.DeserializeObject<ServerConfig>(serverConfigFile);
                     return _serverConfig;
                 }

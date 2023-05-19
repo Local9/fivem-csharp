@@ -1,5 +1,5 @@
 ﻿global using CitizenFX.Core;
+global using CitizenFX.FiveM;
+global using CitizenFX.FiveM.Native;
 global using System;
-global using System.Threading.Tasks;
-global using static CitizenFX.Core.Native.API;
 

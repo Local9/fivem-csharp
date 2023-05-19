@@ -5,7 +5,7 @@ namespace ProjectName.Server.Database
 {
     internal class DatabaseMigration
     {
-        public static async Task RunMigrations()
+        public static async Coroutine RunMigrations()
         {
             using (ServiceProvider serviceProvider = CreateServices())
             using (IServiceScope scope = serviceProvider.CreateScope())

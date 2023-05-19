@@ -1,5 +1,4 @@
 ﻿using FxEvents;
-using FxEvents.Shared.TypeExtensions;
 using ProjectName.Server.Database.Domain;
 using ProjectName.Server.Models;
 using ProjectName.Shared;
@@ -13,10 +12,10 @@ namespace ProjectName.Server.Scripts
 
         private ClientConnection()
         {
-            AttachEvent("playerConnecting", new Action<Player, string, CallbackDelegate, dynamic>(OnPlayerConnectingAsync));
+            AttachEvent("playerConnecting", Func.Create<CitizenFX.Core.Player, string, Callback, dynamic>(OnPlayerConnectingAsync));
 
-            EventDispatcher.Mount("connection:active", new Func<Player, Task<bool>>(OnConnectionActiveAsync));
-            EventDispatcher.Mount("connection:ping", new Func<EventSource, Task<string>>(OnConnectionPingAsync));
+            EventDispatcher.Mount("connection:active", new Func<CitizenFX.Core.Player, Coroutine<bool>>(OnConnectionActiveAsync));
+            EventDispatcher.Mount("connection:ping", new Func<EventSource, Coroutine<string>>(OnConnectionPingAsync));
         }
 
         internal static ClientConnection Instance
@@ -30,7 +29,7 @@ namespace ProjectName.Server.Scripts
             }
         }
 
-        private async Task<string> OnConnectionPingAsync([FromSource] EventSource session)
+        private async Coroutine<string> OnConnectionPingAsync([Source] EventSource session)
         {
             // example of using the players information from the Active Session
             Logger.Debug($"Player {session.Player.Name} pinged the server.");
@@ -41,7 +40,7 @@ namespace ProjectName.Server.Scripts
             return "pong";
         }
 
-        private async Task<bool> OnConnectionActiveAsync([FromSource] Player player)
+        private async Coroutine<bool> OnConnectionActiveAsync([Source] CitizenFX.Core.Player player)
         {
             try
             {
@@ -52,7 +51,7 @@ namespace ProjectName.Server.Scripts
 
                 User user = await User.GetUser(player);
 
-                Session session = new(player.Handle.ToInt());
+                Session session = new(player.Handle);
                 session.SetUser(user);
 
                 Main.ActiveSessions.TryAdd(session.Handle, session);
@@ -68,11 +67,11 @@ namespace ProjectName.Server.Scripts
             }
         }
 
-        private async void OnPlayerConnectingAsync([FromSource] Player player, string playerName, CallbackDelegate kickReason, dynamic deferrals)
+        private async void OnPlayerConnectingAsync([Source] CitizenFX.Core.Player player, string playerName, Callback kickReason, dynamic deferrals)
         {
             deferrals.defer();
 
-            await BaseScript.Delay(100);
+            await BaseScript.Wait(100);
             Logger.Info($"Player {playerName} is connecting.");
 
             // Get player information from the database

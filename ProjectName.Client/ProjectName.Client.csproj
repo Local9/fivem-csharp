@@ -30,9 +30,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CitizenFX.Core.Client" Version="1.0.6370" ExcludeAssets="runtime" />
-    <PackageReference Include="FxEvents.FiveM.Client" Version="1.0.3" />
+    <PackageReference Include="FxEvents.FiveM.Client" Version="2.0.0-beta1-monov2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" ExcludeAssets="Compile" GeneratePathProperty="true" />
+    <Reference Include="CitizenFX.Core">
+      <HintPath>..\_dependancies\FiveM\Client\CitizenFX.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CitizenFX.FiveM">
+      <HintPath>..\_dependancies\FiveM\Client\CitizenFX.FiveM.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CitizenFX.FiveM.Native">
+      <HintPath>..\_dependancies\FiveM\Client\CitizenFX.FiveM.Native.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(PkgNewtonsoft_Json)\lib\portable-net40+sl5+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>

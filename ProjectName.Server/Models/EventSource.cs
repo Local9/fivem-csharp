@@ -15,7 +15,7 @@ namespace ProjectName.Server.Models
         /// <summary>
         /// CFX Player Information (Name, Ping, etc.)
         /// </summary>
-        internal Player Player => Main.PlayerList[Handle];
+        internal CitizenFX.Core.Player Player => Main.PlayerList[Handle];
 
         /// <summary>
         /// Session Information (User, Character, etc.)

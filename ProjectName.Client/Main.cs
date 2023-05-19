@@ -9,13 +9,13 @@ namespace ProjectName.Client
         internal static Main Instance { get; private set; }
         internal static Log Logger { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
-        internal ExportDictionary ExportDictionary => Exports;
+        internal Exports ExportDictionary => Exports;
 
         public static int GameTime { get; private set; }
 
         public Main()
         {
-            PlayerList = Players;
+            PlayerList = PlayerList.Players;
             Logger = new();
             EventDispatcher.Initalize($"{FxEventKeys.FX_KEY_INBOUND}_rpc_in", $"{FxEventKeys.FX_KEY_OUTBOUND}_rpc_out", $"{FxEventKeys.FX_KEY_SIGNATURE}_sig");
 
@@ -33,7 +33,7 @@ namespace ProjectName.Client
         /// Attaches a Tick
         /// </summary>
         /// <param name="task"></param>
-        internal void AttachTick(Func<Task> task)
+        internal void AttachTick(Func<Coroutine> task)
         {
             Tick += task;
         }
@@ -42,7 +42,7 @@ namespace ProjectName.Client
         /// Detaches a Tick
         /// </summary>
         /// <param name="task"></param>
-        internal void DetachTick(Func<Task> task)
+        internal void DetachTick(Func<Coroutine> task)
         {
             Tick -= task;
         }
@@ -53,10 +53,10 @@ namespace ProjectName.Client
         /// <remarks>This event will not go through FxEvents</remarks>
         /// <param name="eventName"></param>
         /// <param name="delegate"></param>
-        internal void AddEventHandler(string eventName, Delegate @delegate)
+        internal void AddEventHandler(string eventName, DynFunc @delegate, Binding binding = Binding.Local)
         {
             Logger.Debug($"Registered Event Handler '{eventName}'");
-            EventHandlers[eventName] += @delegate;
+            EventHandlers[eventName].Add(@delegate, binding);
         }
 
         /// <summary>
@@ -64,9 +64,9 @@ namespace ProjectName.Client
         /// Using this as the only method to call GetGameTimer will lower the amount of calls to the native.
         /// </summary>
         [Tick]
-        private async Task OnUpdateGameTimerAsync()
+        private async Coroutine OnUpdateGameTimerAsync()
         {
-            GameTime = GetGameTimer();
+            GameTime = Natives.GetGameTimer();
             await BaseScript.Delay(500);
         }
     }

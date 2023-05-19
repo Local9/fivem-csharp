@@ -6,7 +6,7 @@ namespace ProjectName.Server.Database
 {
     internal class Dapper<T>
     {
-        public static async Task<List<T>> GetListAsync(string query, DynamicParameters args = null)
+        public static async Coroutine<List<T>> GetListAsync(string query, DynamicParameters args = null)
         {
             var watch = Stopwatch.StartNew();
             try
@@ -29,7 +29,7 @@ namespace ProjectName.Server.Database
             return null;
         }
 
-        public static async Task<T> GetSingleAsync(string query, DynamicParameters args = null)
+        public static async Coroutine<T> GetSingleAsync(string query, DynamicParameters args = null)
         {
             var watch = Stopwatch.StartNew();
             try
@@ -51,7 +51,7 @@ namespace ProjectName.Server.Database
             return default(T);
         }
 
-        public static async Task<bool> ExecuteAsync(string query, DynamicParameters args = null)
+        public static async Coroutine<bool> ExecuteAsync(string query, DynamicParameters args = null)
         {
             var watch = Stopwatch.StartNew();
             try
