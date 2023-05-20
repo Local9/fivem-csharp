@@ -11,7 +11,7 @@ namespace ProjectName.Client.Scripts
         private ClientConnection()
         {
             OnStartupAsync();
-            EventDispatcher.Mount("client:ping", new Func<Coroutine<string>>(OnClientPingAsync));
+            EventDispatcher.Mount("client:ping", Func.Create(OnClientPingAsync));
         }
 
         internal static ClientConnection Instance
