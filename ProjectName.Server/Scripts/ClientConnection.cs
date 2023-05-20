@@ -12,10 +12,16 @@ namespace ProjectName.Server.Scripts
 
         private ClientConnection()
         {
-            AttachEvent("playerConnecting", Func.Create<CitizenFX.Core.Player, string, Callback, dynamic>(OnPlayerConnectingAsync));
+            AttachEvent("playerConnecting", Func.Create<Player, string, Callback, dynamic>(OnPlayerConnectingAsync));
+            AttachEvent("playerJoining", Func.Create<Player>(OnPlayerJoiningAsync));
 
-            EventDispatcher.Mount("connection:active", new Func<CitizenFX.Core.Player, Coroutine<bool>>(OnConnectionActiveAsync));
-            EventDispatcher.Mount("connection:ping", new Func<EventSource, Coroutine<string>>(OnConnectionPingAsync));
+            EventDispatcher.Mount("connection:active", Func.Create<Player, Coroutine<bool>>(OnConnectionActiveAsync));
+            EventDispatcher.Mount("connection:ping", Func.Create<EventSource, Coroutine<string>>(OnConnectionPingAsync));
+        }
+
+        private void OnPlayerJoiningAsync([Source] Player player)
+        {
+            Logger.Info($"Player {player.Name} is joining.");
         }
 
         internal static ClientConnection Instance
@@ -40,7 +46,7 @@ namespace ProjectName.Server.Scripts
             return "pong";
         }
 
-        private async Coroutine<bool> OnConnectionActiveAsync([Source] CitizenFX.Core.Player player)
+        private async Coroutine<bool> OnConnectionActiveAsync([Source] Player player)
         {
             try
             {
@@ -67,7 +73,7 @@ namespace ProjectName.Server.Scripts
             }
         }
 
-        private async void OnPlayerConnectingAsync([Source] CitizenFX.Core.Player player, string playerName, Callback kickReason, dynamic deferrals)
+        private async void OnPlayerConnectingAsync([Source] Player player, string playerName, Callback kickReason, dynamic deferrals)
         {
             deferrals.defer();
 

@@ -15,7 +15,7 @@ namespace ProjectName.Server.Models
         /// <summary>
         /// CFX Player Information (Name, Ping, etc.)
         /// </summary>
-        internal CitizenFX.Core.Player Player => Main.PlayerList[Handle];
+        internal Player Player { get; private set; }
 
         /// <summary>
         /// Session Information (User, Character, etc.)
@@ -27,11 +27,11 @@ namespace ProjectName.Server.Models
 
         }
 
-        public EventSource(int handle)
+        public EventSource(Remote remote)
         {
-            Handle = handle;
-            if (handle > 0)
-                Session = Main.ToSession(handle);
+            Player = (Player)remote;
+            Handle = Player.Handle;
+            Session = Main.ToSession(Player.Handle);
         }
 
         public override string ToString()
@@ -39,21 +39,11 @@ namespace ProjectName.Server.Models
             return $"{Handle} ({Player.Name})";
         }
 
-        public static explicit operator EventSource(string netId)
-        {
-            if (int.TryParse(netId.Replace("net:", string.Empty), out int handle))
-            {
-                return new EventSource(handle);
-            }
-
-            throw new Exception($"Could not parse net id: {netId}");
-        }
-
         public bool Compare(EventSource client)
         {
             return client.Handle == Handle;
         }
 
-        public static explicit operator EventSource(int handle) => new(handle);
+        public static explicit operator EventSource(Remote handle) => new(handle);
     }
 }
