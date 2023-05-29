@@ -41,7 +41,7 @@ namespace ProjectName.Server.Scripts
             Logger.Debug($"Player {session.Player.Name} pinged the server.");
             Logger.Debug($"Players last name: {session.Session.User.LastName}.");
             // example of getting a ping response from the client
-            string result = await EventDispatcher.Get<string>(session.Player, "client:ping");
+            string result = await EventDispatcher.Get<string>(session.Remote, "client:ping");
             Logger.Debug($"Server pinged player '{session.Player.Name}' got result '{result}'.");
             return "pong";
         }

@@ -12,6 +12,8 @@ namespace ProjectName.Server.Models
         /// </summary>
         public int Handle { get; set; }
 
+        internal Remote Remote { get; private set; }
+
         /// <summary>
         /// CFX Player Information (Name, Ping, etc.)
         /// </summary>
@@ -29,6 +31,7 @@ namespace ProjectName.Server.Models
 
         public EventSource(Remote remote)
         {
+            Remote = remote;
             Player = (Player)remote;
             Handle = Player.Handle;
             Session = Main.ToSession(Player.Handle);
