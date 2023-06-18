@@ -1,6 +1,4 @@
-﻿using ProjectName.Server.Database.Domain;
-
-namespace ProjectName.Server.Models
+﻿namespace ProjectName.Server.Models
 {
     /// <summary>
     /// Session is used to store information about a player's session.
@@ -13,19 +11,9 @@ namespace ProjectName.Server.Models
         /// </summary>
         public int Handle { get; set; }
 
-        /// <summary>
-        /// Project User Information
-        /// </summary>
-        internal User User { get; private set; }
-
         public Session(int handle)
         {
             Handle = handle;
-        }
-
-        internal void SetUser(User user)
-        {
-            User = user;
         }
     }
 }
