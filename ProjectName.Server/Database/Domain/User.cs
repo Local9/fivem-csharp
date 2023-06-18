@@ -17,7 +17,7 @@ namespace ProjectName.Server.Database.Domain
         [Description("last_seen")]
         public DateTime LastSeen { get; private set; }
 
-        public static async Coroutine<User> GetUser(CitizenFX.Core.Player player)
+        public static async Coroutine<User> GetUser(Player player)
         {
             // Get player tokens
             CString handle = $"{player.Handle}";

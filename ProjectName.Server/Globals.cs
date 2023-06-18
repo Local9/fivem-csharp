@@ -1,4 +1,5 @@
 ﻿global using CitizenFX.Core;
+global using CitizenFX.Server;
 global using CitizenFX.Server.Native;
 global using System;
 global using System.Collections.Generic;
