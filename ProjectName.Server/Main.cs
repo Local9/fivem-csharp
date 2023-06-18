@@ -1,4 +1,5 @@
-﻿using FxEvents;
+﻿using CitizenFX.Server;
+using FxEvents;
 using Logger;
 using ProjectName.Server.Database;
 using ProjectName.Server.Models;
