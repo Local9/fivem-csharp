@@ -1,4 +1,6 @@
-﻿using ProjectName.Shared;
+﻿using FxEvents;
+using ProjectName.Server.Models;
+using ProjectName.Shared;
 
 namespace ProjectName.Server.Scripts
 {
@@ -11,6 +13,8 @@ namespace ProjectName.Server.Scripts
         {
             AttachEvent("playerConnecting", Func.Create<Player, string, Callback, dynamic>(OnPlayerConnectingAsync));
             AttachEvent("playerJoining", Func.Create<Player>(OnPlayerJoiningAsync));
+
+            EventDispatcher.Mount("connection:ping", Func.Create<EventSource, Coroutine<string>>(OnConnectionPingAsync));
         }
 
         private void OnPlayerJoiningAsync([Source] Player player)
@@ -27,6 +31,16 @@ namespace ProjectName.Server.Scripts
                     return _instance ??= new ClientConnection();
                 }
             }
+        }
+
+        private async Coroutine<string> OnConnectionPingAsync([Source] EventSource session)
+        {
+            // example of using the players information from the Active Session
+            Logger.Debug($"Player {session.Player.Name} pinged the server.");
+            // example of getting a ping response from the client
+            string result = await EventDispatcher.Get<string>(session.Remote, "client:ping");
+            Logger.Debug($"Server pinged player '{session.Player.Name}' got result '{result}'.");
+            return "pong";
         }
 
         private async void OnPlayerConnectingAsync([Source] Player player, string playerName, Callback kickReason, dynamic deferrals)

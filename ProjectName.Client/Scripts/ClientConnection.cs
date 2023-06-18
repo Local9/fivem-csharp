@@ -34,14 +34,8 @@ namespace ProjectName.Client.Scripts
         {
             try
             {
-                bool isConnectionActive = await EventDispatcher.Get<bool>("connection:active");
-                if (isConnectionActive)
-                    Logger.Info("Connection is active.");
-                else
-                    Logger.Info("Connection is not active.");
-
                 string ping = await EventDispatcher.Get<string>("connection:ping");
-                Logger.Info($"Ping: {ping}");
+                Logger.Info($"connection:ping: {ping}");
             }
             catch (Exception ex)
             {
