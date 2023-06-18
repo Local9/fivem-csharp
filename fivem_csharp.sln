@@ -41,11 +41,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{BFD3F8
 		resource_files\server\server-config.json-example = resource_files\server\server-config.json-example
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migration_scripts", "migration_scripts", "{2DD7CF03-09E6-429A-AD39-5D19F6209562}"
-	ProjectSection(SolutionItems) = preProject
-		resource_files\server\migration_scripts\0001_initial_migration.sql = resource_files\server\migration_scripts\0001_initial_migration.sql
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,7 +65,6 @@ Global
 		{719C2A60-6E44-4280-9E37-613133331C79} = {CF228440-317F-4DAB-8D50-E654943864CA}
 		{4E6844BA-9772-4AD5-B808-379D4A9C18EB} = {E739C2A4-BF71-477E-934C-81C9E82167FE}
 		{BFD3F820-6922-42E7-A35C-A11A977556CB} = {4E6844BA-9772-4AD5-B808-379D4A9C18EB}
-		{2DD7CF03-09E6-429A-AD39-5D19F6209562} = {BFD3F820-6922-42E7-A35C-A11A977556CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3962D23B-0087-435B-8898-AB433F54D131}
