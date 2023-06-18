@@ -28,9 +28,6 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.138" />
-    <PackageReference Include="FluentMigrator" Version="3.3.2" />
-    <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
-    <PackageReference Include="FluentMigrator.Runner.MySql" Version="3.3.2" />
     <PackageReference Include="FxEvents.Server" Version="2.0.0-beta3-monov2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySqlConnector" Version="2.2.6" />

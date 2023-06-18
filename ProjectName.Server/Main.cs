@@ -1,5 +1,4 @@
-﻿using CitizenFX.Server;
-using FxEvents;
+﻿using FxEvents;
 using Logger;
 using ProjectName.Server.Database;
 using ProjectName.Server.Models;
@@ -36,7 +35,6 @@ namespace ProjectName.Server
         {
             try
             {
-                await DatabaseMigration.RunMigrations();
                 await OnDatabaseTestAsync();
 
                 _ = Scripts.ClientConnection.Instance;
