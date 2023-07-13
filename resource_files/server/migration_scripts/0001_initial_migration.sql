@@ -5,6 +5,7 @@ SELECT *
 FROM users u
 WHERE u.id = LAST_INSERT_ID();
 END;
+
 CREATE PROCEDURE `insUserToken`(IN `pUserId` BIGINT, IN `pToken` VARCHAR(255)) SQL SECURITY INVOKER BEGIN
 INSERT INTO user_tokens (`user_id`, `token`)
 VALUES (pUserId, pToken);
