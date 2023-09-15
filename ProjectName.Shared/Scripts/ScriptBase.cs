@@ -3,6 +3,7 @@
 using ProjectName.Server;
 #elif Client
 using ProjectName.Client;
+using ProjectName.Client.Scripts.GameEvent;
 #endif
 
 namespace ProjectName.Shared
@@ -38,5 +39,12 @@ namespace ProjectName.Shared
         /// </summary>
         /// <param name="task"></param>
         internal static void DetachTick(Func<Task> action) => Main.Instance.DetachTick(action);
+
+#if Client
+        /// <summary>
+        /// Access to the EventNetworkEntityDamage class.
+        /// </summary>
+        internal static EventNetworkEntityDamage EventNetworkEntityDamage => Main.Instance.EventNetworkEntityDamage;
+#endif
     }
 }

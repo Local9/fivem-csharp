@@ -1,5 +1,6 @@
 ﻿using FxEvents;
 using Logger;
+using ProjectName.Client.Scripts.GameEvent;
 using ProjectName.Shared;
 
 namespace ProjectName.Client
@@ -10,6 +11,8 @@ namespace ProjectName.Client
         internal static Log Logger { get; private set; }
         internal static PlayerList PlayerList { get; private set; }
         internal ExportDictionary ExportDictionary => Exports;
+
+        internal EventNetworkEntityDamage EventNetworkEntityDamage;
 
         public static int GameTime { get; private set; }
 
@@ -27,6 +30,9 @@ namespace ProjectName.Client
         private void InitialiseScripts()
         {
             _ = Scripts.ClientConnection.Instance;
+            // EventNetworkEntityDamage needs to be initialised before Character as it uses the class.
+            EventNetworkEntityDamage = Scripts.GameEvent.EventNetworkEntityDamage.Instance;
+            _ = Scripts.Character.Instance;
         }
 
         /// <summary>
