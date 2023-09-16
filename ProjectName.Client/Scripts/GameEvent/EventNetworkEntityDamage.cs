@@ -82,42 +82,66 @@ namespace ProjectName.Client.Scripts.GameEvent
 
                 EntityInformation entityInfo = GetEntityInformation(victim, attacker);
 
+                Logger.Debug($"---------------------------------------------.");
+                Logger.Debug($"Event '{eventName}' was triggered.");
+                Logger.Debug($"Victim: {victim?.Handle} {victim?.GetType()}");
+                Logger.Debug($"Attacker: {attacker?.Handle} {attacker?.GetType()}");
+                Logger.Debug($"IsDamageFatal: {isDamageFatal}");
+                Logger.Debug($"WeaponInfoHash: {weaponInfoHash}");
+                Logger.Debug($"IsMeleeDamage: {isMeleeDamage}");
+                Logger.Debug($"DamageTypeFlag: {damageTypeFlag}");
+                Logger.Debug($"---------------------------------------------.");
+
                 if (isDamageFatal)
                 {
-                    // Player killed a player
-                    if (entityInfo.PlayerVictim is not null && entityInfo.PlayerAttacker is not null)
+                    bool isPlayerVictim = entityInfo.PlayerVictim is not null;
+                    bool isPlayerAttacker = entityInfo.PlayerAttacker is not null;
+                    bool isPedVictim = entityInfo.PedVictim is not null;
+                    bool isPedAttacker = entityInfo.PedAttacker is not null;
+
+                    if (isPlayerVictim && entityInfo.PedAttacker is null)
                     {
-                        OnPlayerKillPlayer.Invoke(entityInfo.PlayerAttacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Player died");
+                        OnDeath?.Invoke(entityInfo.PedVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
-                    // Player killed a ped
-                    else if (entityInfo.PlayerVictim is null && entityInfo.PlayerAttacker is not null)
+                    else if (isPlayerVictim && isPlayerAttacker)
                     {
-                        OnPlayerKillPed.Invoke(entityInfo.PlayerAttacker, entityInfo.PedVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Player killed player");
+                        OnPlayerKillPlayer?.Invoke(entityInfo.PlayerAttacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
-                    // Ped killed a player
-                    else if (entityInfo.PlayerVictim is not null && entityInfo.PlayerAttacker is null)
+                    else if (isPlayerVictim && isPedAttacker)
                     {
-                        OnPedKillPlayer.Invoke(entityInfo.PedAttacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Ped killed player");
+                        OnPedKillPlayer?.Invoke(entityInfo.PedAttacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
-                    // Ped killed a ped
-                    else if (entityInfo.PlayerAttacker is null && entityInfo.PlayerVictim is null)
+                    else if (isPedVictim && isPlayerAttacker)
                     {
-                        OnPedKillPed.Invoke(entityInfo.PedAttacker, entityInfo.PedVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Player killed ped");
+                        OnPlayerKillPed?.Invoke(entityInfo.PlayerAttacker, entityInfo.PedVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                    }
+                    else if (isPedVictim && isPedAttacker)
+                    {
+                        Logger.Debug($"Ped killed ped");
+                        OnPedKillPed?.Invoke(entityInfo.PedAttacker, entityInfo.PedVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
                     else
                     {
-                        OnEntityKillEntity.Invoke(attacker, victim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Entity killed entity");
+                        OnEntityKillEntity?.Invoke(attacker, victim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
                 }
                 else
                 {
+                    if (entityInfo.VehicleVictim is not null)
+                    {
+                        Logger.Debug($"Vehicle damaged");
+                        OnVehicleDamage?.Invoke(attacker, entityInfo.VehicleVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                    }
+
                     if (entityInfo.PlayerVictim is not null)
                     {
-                        OnPlayerDamage.Invoke(attacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
-                    }
-                    else if (entityInfo.VehicleVictim is not null)
-                    {
-                        OnVehicleDamage.Invoke(attacker, entityInfo.VehicleVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
+                        Logger.Debug($"Player damaged");
+                        OnPlayerDamage?.Invoke(attacker, entityInfo.PlayerVictim, isMeleeDamage, weaponInfoHash, damageTypeFlag);
                     }
                 }
             }
@@ -141,19 +165,25 @@ namespace ProjectName.Client.Scripts.GameEvent
 
             if (victim is Ped)
                 pedVictim = victim as Ped;
+
             if (victim is Vehicle)
                 vehicleVictim = victim as Vehicle;
+
             if (pedVictim is not null && pedVictim.IsPlayer)
                 playerVictim = new Player(NetworkGetPlayerIndexFromPed(pedVictim.Handle));
+
             if (pedVictim is null && vehicleVictim is not null)
                 playerVictim = new Player(NetworkGetPlayerIndexFromPed(vehicleVictim.Driver.Handle));
 
             if (attacker is Ped)
                 pedAttacker = attacker as Ped;
+
             if (attacker is Vehicle)
                 vehicleAttacker = attacker as Vehicle;
+
             if (pedAttacker is not null && pedAttacker.IsPlayer)
                 playerAttacker = new Player(NetworkGetPlayerIndexFromPed(pedAttacker.Handle));
+
             if (pedAttacker is null && vehicleAttacker is not null)
                 playerAttacker = new Player(NetworkGetPlayerIndexFromPed(vehicleAttacker.Driver.Handle));
 

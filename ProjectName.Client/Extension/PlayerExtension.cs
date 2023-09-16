@@ -12,6 +12,8 @@ namespace ProjectName.Client.Extension
         /// <param name="heading"></param>
         public static async void Revive(this Player player, Vector3 position, float heading = 0f)
         {
+            Main.Logger.Debug($"Revive {player.Name} {position} {heading}");
+
             await player.Character.FadeOut();
 
             player.Character.Task.ClearAllImmediately();
