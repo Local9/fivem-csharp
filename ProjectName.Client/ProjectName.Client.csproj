@@ -42,8 +42,11 @@
   <Import Project="..\ProjectName.Shared\ProjectName.Shared.projitems" Label="Shared" />
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /f /r /y /i bin\Debug ..\build\client&#xD;&#xA;xcopy /f /r /y /i /s ..\resource_files ..\build" Condition="'$(Configuration)' == 'Debug'" />
-    <Exec Command="xcopy /f /r /y /i bin\Release ..\build\client&#xD;&#xA;xcopy /f /r /y /i / s ..\resource_files ..\build" Condition="'$(Configuration)' == 'Release'" />
+	  <ItemGroup>
+		  <FilesToCopy Include="$(ProjectDir)bin\$(Configuration)\*.dll" />
+	  </ItemGroup>
+	  <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\build\client" />
+	  <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="..\resource_files\client" />
   </Target>
 
 </Project>
