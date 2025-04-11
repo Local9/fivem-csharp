@@ -125,12 +125,12 @@ namespace ProjectName.Server.Database.Domain
             return default;
         }
 
-        private static async Task<User> OnInsertUserAsync(string lastName)
+        private static async Task<User> OnInsertUserAsync(string username)
         {
             DynamicParameters dynamicParameters = new DynamicParameters();
-            dynamicParameters.Add("pLastName", lastName);
+            dynamicParameters.Add("pUsername", username);
 
-            return await Dapper<User>.GetSingleAsync("call insUser(@pLastName);", dynamicParameters);
+            return await Dapper<User>.GetSingleAsync("call insUser(@pUsername);", dynamicParameters);
         }
 
         private async Task OnInsertTokenAsync(string token)
