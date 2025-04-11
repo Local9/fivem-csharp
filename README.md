@@ -2,6 +2,9 @@
 
 This is an example C# Project using [Dapper](https://github.com/DapperLib/Dapper) and [FxEvents](https://github.com/manups4e/FxEvents)
 
+> [!IMPORTANT]  
+> Please do be aware this has not been updated for a very long time. Some processes may have changed, and others mostly for the better. You're welcome to open pull requests against this project and I'll review them as and when I can.
+
 ## Project requirements
 
 - Visual Studio 2022
