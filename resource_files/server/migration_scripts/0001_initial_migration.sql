@@ -13,9 +13,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 -- Create a stored procedure to insert a new user into the 'users' table
-CREATE PROCEDURE `insUser`(IN `pUsername` VARCHAR(255)) SQL SECURITY INVOKER BEGIN
-    INSERT INTO users (`last_name`)
-    VALUES (pUsername);
+CREATE PROCEDURE `insUser`(IN `pLastNameUsed` VARCHAR(255)) SQL SECURITY INVOKER BEGIN
+    INSERT INTO users (`last_name_used`)
+    VALUES (pLastNameUsed);
     -- Select the newly inserted user by their ID
     SELECT *
     FROM users u

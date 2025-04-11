@@ -15,7 +15,7 @@ namespace ProjectName.Server.Database.Migrations
         {
             Create.Table("users")
                 .WithColumn("id").AsInt64().NotNullable().PrimaryKey().Identity()
-                .WithColumn("last_name").AsString(255).NotNullable()
+                .WithColumn("last_name_used").AsString(255).NotNullable()
                 .WithColumn("created").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
                 .WithColumn("last_seen").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime);
 
