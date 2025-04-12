@@ -1,9 +1,10 @@
 ﻿using Dapper;
 using FxEvents.Shared;
+using ProjectName.Server.Database;
 
-namespace ProjectName.Server.Database.Domain
+namespace ProjectName.Server.Entities
 {
-    public class User
+    public partial class User
     {
         [Description("id")]
         public int Id { get; private set; }
@@ -145,7 +146,7 @@ namespace ProjectName.Server.Database.Domain
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pLastNameUsed", lastNameUsed);
 
-            return await Dapper<User>.GetSingleAsync("call insUser(@pLastNameUsed);", dynamicParameters);
+            return await Dapper<User>.QuerySingleAsync("call insUser(@pLastNameUsed);", dynamicParameters);
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace ProjectName.Server.Database.Domain
             dynamicParameters.Add("pType", type);
             dynamicParameters.Add("pValue", value);
 
-            return await Dapper<User>.GetSingleAsync("call selUserByIdentity(@pType, @pValue);", dynamicParameters);
+            return await Dapper<User>.QuerySingleAsync("call selUserByIdentity(@pType, @pValue);", dynamicParameters);
         }
 
         /// <summary>
@@ -212,7 +213,7 @@ namespace ProjectName.Server.Database.Domain
             DynamicParameters dynamicParameters = new DynamicParameters();
             dynamicParameters.Add("pTokens", string.Join(",", tokens));
 
-            return await Dapper<User>.GetSingleAsync("call selUserByToken(@pTokens);", dynamicParameters);
+            return await Dapper<User>.QuerySingleAsync("call selUserByToken(@pTokens);", dynamicParameters);
         }
 
         public override string ToString()

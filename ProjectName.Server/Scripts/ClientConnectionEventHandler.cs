@@ -1,17 +1,17 @@
 ﻿using FxEvents;
 using FxEvents.Shared.TypeExtensions;
-using ProjectName.Server.Database.Domain;
+using ProjectName.Server.Entities;
 using ProjectName.Server.Models;
 using ProjectName.Shared;
 
 namespace ProjectName.Server.Scripts
 {
-    internal class ClientConnection : ScriptBase
+    internal class ClientConnectionEventHandler : ScriptBase
     {
         private static readonly object _padlock = new();
-        private static ClientConnection _instance;
+        private static ClientConnectionEventHandler _instance;
 
-        private ClientConnection()
+        private ClientConnectionEventHandler()
         {
             AttachEvent("playerConnecting", new Action<Player, string, CallbackDelegate, dynamic>(OnPlayerConnectingAsync));
 
@@ -19,13 +19,13 @@ namespace ProjectName.Server.Scripts
             EventDispatcher.Mount("connection:ping", new Func<EventSource, Task<string>>(OnConnectionPingAsync));
         }
 
-        internal static ClientConnection Instance
+        internal static ClientConnectionEventHandler Instance
         {
             get
             {
                 lock (_padlock)
                 {
-                    return _instance ??= new ClientConnection();
+                    return _instance ??= new ClientConnectionEventHandler();
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace ProjectName.Server.Scripts
         {
             // example of using the players information from the Active Session
             Logger.Debug($"Player {source.Player.Name} pinged the server.");
-            Logger.Debug($"Players last name: {source.Session.User.LastName}.");
+            Logger.Debug($"Players last name: {source.Session.User.LastNameUsed}.");
             // example of getting a ping response from the client
             string result = await EventDispatcher.Get<string>(source.Player, "client:ping");
             Logger.Debug($"Server pinged player '{source.Player.Name}' got result '{result}'.");

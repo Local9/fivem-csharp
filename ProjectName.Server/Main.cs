@@ -38,7 +38,8 @@ namespace ProjectName.Server
                 await DatabaseMigration.RunMigrations();
                 await OnDatabaseTestAsync();
 
-                _ = Scripts.ClientConnection.Instance;
+                _ = Scripts.ClientConnectionEventHandler.Instance;
+                _ = Scripts.UserEventHandler.Instance;
 
                 IsReady = true;
             }
@@ -56,7 +57,7 @@ namespace ProjectName.Server
         /// </summary>
         private async Task OnDatabaseTestAsync()
         {
-            bool databaseTest = await Dapper<bool>.GetSingleAsync("select 1;");
+            bool databaseTest = await Dapper<bool>.QuerySingleAsync("select 1;");
             if (databaseTest)
                 Logger.Info($"Database Connection Test Successful!");
             else

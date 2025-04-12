@@ -6,16 +6,16 @@ namespace ProjectName.Server.Database
 {
     internal class Dapper<T>
     {
-        public static async Task<List<T>> GetListAsync(string query, DynamicParameters args = null)
+        public static async Task<IEnumerable<T>> QueryAsync(string query, DynamicParameters args = null)
         {
-            var watch = Stopwatch.StartNew();
+            Stopwatch watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
+                using (MySqlConnection conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     SetupTypeMap();
 
-                    return (await conn.QueryAsync<T>(query, args)).AsList();
+                    return (await conn.QueryAsync<T>(query, args));
                 }
             }
             catch (Exception ex)
@@ -29,15 +29,15 @@ namespace ProjectName.Server.Database
             return null;
         }
 
-        public static async Task<T> GetSingleAsync(string query, DynamicParameters args = null)
+        public static async Task<T> QuerySingleAsync(string query, DynamicParameters args = null)
         {
-            var watch = Stopwatch.StartNew();
+            Stopwatch watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
+                using (MySqlConnection conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     SetupTypeMap();
-                    return (await conn.QueryAsync<T>(query, args)).FirstOrDefault();
+                    return (await conn.QuerySingleAsync<T>(query, args));
                 }
             }
             catch (Exception ex)
@@ -53,10 +53,10 @@ namespace ProjectName.Server.Database
 
         public static async Task<bool> ExecuteAsync(string query, DynamicParameters args = null)
         {
-            var watch = Stopwatch.StartNew();
+            Stopwatch watch = Stopwatch.StartNew();
             try
             {
-                using (var conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
+                using (MySqlConnection conn = new MySqlConnection(DatabaseConfiguration.ConnectionString()))
                 {
                     return (await conn.ExecuteAsync(query, args)) > 0;
                 }
@@ -77,7 +77,7 @@ namespace ProjectName.Server.Database
             StringBuilder sb = new();
             sb.Append("** SQL Exception **\n");
             sb.Append($"Query: {query}\n");
-            foreach (var arg in args.ParameterNames)
+            foreach (string arg in args.ParameterNames)
             {
                 sb.Append($"Parameter: {arg} Value: {args.Get<object>(arg)}\n");
             }
@@ -88,7 +88,7 @@ namespace ProjectName.Server.Database
 
         private static void SetupTypeMap()
         {
-            var map = new CustomPropertyTypeMap(typeof(T), (type, columnName) =>
+            CustomPropertyTypeMap map = new CustomPropertyTypeMap(typeof(T), (type, columnName) =>
                                 type.GetProperties().FirstOrDefault(prop => GetDescriptionFromAttribute(prop) == columnName.ToLower()));
             SqlMapper.SetTypeMap(typeof(T), map);
         }
@@ -97,7 +97,7 @@ namespace ProjectName.Server.Database
         {
             if (member == null) return null;
 
-            var attrib = (DescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(DescriptionAttribute), false);
+            DescriptionAttribute attrib = (DescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(DescriptionAttribute), false);
             return (attrib?.Description ?? member.Name).ToLower();
         }
     }

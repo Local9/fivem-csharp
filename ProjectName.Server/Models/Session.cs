@@ -1,4 +1,4 @@
-﻿using ProjectName.Server.Database.Domain;
+﻿using ProjectName.Server.Entities;
 
 namespace ProjectName.Server.Models
 {
